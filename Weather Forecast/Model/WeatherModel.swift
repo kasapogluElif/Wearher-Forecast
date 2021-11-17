@@ -6,7 +6,7 @@
 //
 
 import Foundation
-//import CoreLocation
+import CoreLocation
 
 struct WeatherModel{
     let conditionId: Int
@@ -15,11 +15,12 @@ struct WeatherModel{
     let long: Double
     let temperature: Double
     let description : String
-    let hourlyTemp : [(Int,Double,Int)] //[(time,temparature,Id)]
+    let hourlyTemp : [(Double,Double,String,Int)] //[(time,temparature,desc,id)]
 
     var tempString:String{
-        return String(format: "%.0f", temperature)
+        return String(format: "%.0f °C", temperature)
     }
+
     /*
     
     var cityName: String{

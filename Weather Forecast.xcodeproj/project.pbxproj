@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F13E309427447532006BAA30 /* HourlyWeatherCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13E309227447532006BAA30 /* HourlyWeatherCell.swift */; };
+		F13E309527447532006BAA30 /* HourlyWeatherCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F13E309327447532006BAA30 /* HourlyWeatherCell.xib */; };
 		F1B82745273DD70D009A5E4D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B82744273DD70D009A5E4D /* AppDelegate.swift */; };
 		F1B82747273DD70D009A5E4D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B82746273DD70D009A5E4D /* SceneDelegate.swift */; };
 		F1B82749273DD70D009A5E4D /* WeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B82748273DD70D009A5E4D /* WeatherViewController.swift */; };
@@ -21,6 +23,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F13E309227447532006BAA30 /* HourlyWeatherCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourlyWeatherCell.swift; sourceTree = "<group>"; };
+		F13E309327447532006BAA30 /* HourlyWeatherCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HourlyWeatherCell.xib; sourceTree = "<group>"; };
 		F1B82741273DD70D009A5E4D /* Weather Forecast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Weather Forecast.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1B82744273DD70D009A5E4D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F1B82746273DD70D009A5E4D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -92,6 +96,8 @@
 			isa = PBXGroup;
 			children = (
 				F1B8274A273DD70D009A5E4D /* Main.storyboard */,
+				F13E309227447532006BAA30 /* HourlyWeatherCell.swift */,
+				F13E309327447532006BAA30 /* HourlyWeatherCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -165,6 +171,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F1B82751273DD70E009A5E4D /* LaunchScreen.storyboard in Resources */,
+				F13E309527447532006BAA30 /* HourlyWeatherCell.xib in Resources */,
 				F1B8274E273DD70E009A5E4D /* Assets.xcassets in Resources */,
 				F1B8274C273DD70D009A5E4D /* Main.storyboard in Resources */,
 			);
@@ -178,6 +185,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F1B82762273F2331009A5E4D /* SearchBarViewController.swift in Sources */,
+				F13E309427447532006BAA30 /* HourlyWeatherCell.swift in Sources */,
 				F1B82760273DD7AE009A5E4D /* WeatherManager.swift in Sources */,
 				F1B82764273F4453009A5E4D /* HourlyWeatherViewController.swift in Sources */,
 				F1B82749273DD70D009A5E4D /* WeatherViewController.swift in Sources */,

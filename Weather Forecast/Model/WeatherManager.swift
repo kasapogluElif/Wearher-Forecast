@@ -61,10 +61,8 @@ struct WeatherManager{
              description: decodedData.weather[0].description)*/
            
             let decodedHourlyData = decodedData.hourly.map { hourData in
-                return (hourData.dt,hourData.temp,hourData.weather[0].id)
+                return (hourData.dt,hourData.temp,hourData.weather[0].description,hourData.weather[0].id)
             }
-           
-    
             
             let weather = WeatherModel(conditionId: decodedData.current.weather[0].id,
                                        lat: decodedData.lat,

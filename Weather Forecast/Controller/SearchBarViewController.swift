@@ -10,7 +10,7 @@ import Foundation
 import MapKit
 import UIKit
 
-
+/*
 class SearchBarViewController: UIViewController{
     
     
@@ -29,20 +29,22 @@ class SearchBarViewController: UIViewController{
         searchResultsTable?.dataSource = self
     }
 }
+*/
+
 
 //MARK: - UITableViewDataSource
-extension SearchBarViewController: UITableViewDataSource {
-
+extension WeatherViewController: UITableViewDataSource {
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return searchResults.count
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-     
+        
         let searchResult = searchResults[indexPath.row]
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
         cell.textLabel?.text = searchResult.title
@@ -52,7 +54,7 @@ extension SearchBarViewController: UITableViewDataSource {
 }
 
 //MARK: - UITableViewDelegate
-extension SearchBarViewController: UITableViewDelegate {
+extension WeatherViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let result = searchResults[indexPath.row]
@@ -62,40 +64,64 @@ extension SearchBarViewController: UITableViewDelegate {
             guard let coordinate = response?.mapItems[0].placemark.coordinate else {
                 return
             }
-
+            /*
             guard let name = response?.mapItems[0].name else {
                 return
             }
-
-            let lat = coordinate.latitude
-            let lon = coordinate.longitude
-
-            print(lat)
-            print(lon)
-            print(name)
-
+            */
+            self.weatherManager.fetchWeather(latitude: coordinate.latitude, longitute: coordinate.longitude)
+            self.searchResultsTable.isHidden = true
+            self.searchBar.text = ""
+            
         }
     }
 }
 
 //MARK: - UISearchBarDelegate
-extension SearchBarViewController: UISearchBarDelegate{
-       func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-           searchCompleter.queryFragment = searchText
-       }
+extension WeatherViewController: UISearchBarDelegate{
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        searchCompleter.queryFragment = searchText
+        self.searchResultsTable.isHidden = false
+        self.searchResultsTable.backgroundColor = .yellow
+        
+    }
+     
+        
+    
 }
 
 
 //MARK: - MKLocalSearchCompleterDelegate
-extension SearchBarViewController: MKLocalSearchCompleterDelegate{
-
-     func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
-         searchResults = completer.results
-         searchResultsTable.reloadData()
+extension WeatherViewController: MKLocalSearchCompleterDelegate{
+    
+    /*func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
+     searchResults = completer.results
+     searchResultsTable.reloadData()
      }
-
-     func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
-         print("Search Completer error: \(error)")
-     }
+     */
+    func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
+        
+        searchResults = completer.results
+        self.searchResults = completer.results.filter { result in
+            if !result.title.contains(",") {
+                return false
+            }
+            /*
+            if result.title.rangeOfCharacter(from: CharacterSet.decimalDigits) != nil {
+                return false
+            }
+            if result.subtitle.rangeOfCharacter(from: CharacterSet.decimalDigits) != nil {
+                return false
+            }*/
+            return true
+            
+        }
+        
+        searchResultsTable.reloadData()
+        
+    }
+    func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
+        print("Search Completer error: \(error)")
+    }
     
 }

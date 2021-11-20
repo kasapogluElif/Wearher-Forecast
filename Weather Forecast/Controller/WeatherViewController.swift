@@ -10,8 +10,6 @@ import CoreLocation
 import Foundation
 import MapKit
 
-
-
 class WeatherViewController: UIViewController {
     
     @IBOutlet weak var searchBar: UISearchBar!
@@ -46,19 +44,13 @@ class WeatherViewController: UIViewController {
             //weatherManager.fetchWeather(cityName: "ANKARA")
             return
         }
-
-        
     }
-    
-    
 }
 
 //MARK: - WeatherManagerDelegate
 extension WeatherViewController : WeatherManagerDelegate{
     func didUpdateWeather(_ weatherManager: WeatherManager, weather: WeatherModel) {
         DispatchQueue.main.async {
-            //self.cityLabel.text =  self.coordinateToCity(location: CLLocation(latitude: weather.lat as CLLocationDegrees, longitude: weather.long as CLLocationDegrees)) ?? "empty"
-            //self.cityLabel.text = weather.cityName
             let location = CLLocation(latitude: weather.lat, longitude: weather.long)
             location.placemark { placemark, error in
                 guard let placemark = placemark else {
@@ -113,28 +105,3 @@ extension CLLocation {
         CLGeocoder().reverseGeocodeLocation(self) { completion($0?.first, $1) }
     }
 }
-/*
-extension WeatherViewController {
-    
-    func coordinateToCity(location: CLLocation) -> String?{
-        var cityName : String = ""
-        CLGeocoder().reverseGeocodeLocation(location, completionHandler: {(placemarks, error) -> Void in
-            guard error == nil else {
-                print("Reverse geocoder failed with error \(error!)")
-                return
-            }
-            
-            guard  placemarks != nil else {
-                print("Problem with the data received from geocoder")
-                return
-            }
-            cityName = placemarks![0].name ?? "empty name"
-            print("insider cityname " + cityName)
-            
-        })
-       print("cityname " + cityName)
-        return cityName
-    }
-}
-
-*/

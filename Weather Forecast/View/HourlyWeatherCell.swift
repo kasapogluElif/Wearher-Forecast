@@ -12,6 +12,7 @@ class HourlyWeatherCell: UITableViewCell {
     @IBOutlet weak var weatherColorView: UIView!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet weak var weatherIcon: UIImageView!
     @IBOutlet weak var temperatureLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()

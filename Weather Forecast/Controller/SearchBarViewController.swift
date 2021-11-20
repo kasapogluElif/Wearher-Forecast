@@ -10,28 +10,6 @@ import Foundation
 import MapKit
 import UIKit
 
-/*
-class SearchBarViewController: UIViewController{
-    
-    
-    @IBOutlet weak var searchBar: UISearchBar!
-    @IBOutlet weak var searchResultsTable: UITableView!
-    
-    var searchCompleter = MKLocalSearchCompleter()
-    var searchResults = [MKLocalSearchCompletion]()
-    
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        searchCompleter.delegate = self
-        searchBar?.delegate = self
-        searchResultsTable?.delegate = self
-        searchResultsTable?.dataSource = self
-    }
-}
-*/
-
-
 //MARK: - UITableViewDataSource
 extension WeatherViewController: UITableViewDataSource {
     
@@ -64,11 +42,6 @@ extension WeatherViewController: UITableViewDelegate {
             guard let coordinate = response?.mapItems[0].placemark.coordinate else {
                 return
             }
-            /*
-            guard let name = response?.mapItems[0].name else {
-                return
-            }
-            */
             self.weatherManager.fetchWeather(latitude: coordinate.latitude, longitute: coordinate.longitude)
             self.searchResultsTable.isHidden = true
             self.searchBar.text = ""
@@ -83,22 +56,13 @@ extension WeatherViewController: UISearchBarDelegate{
         searchCompleter.queryFragment = searchText
         self.searchResultsTable.isHidden = false
         self.searchResultsTable.backgroundColor = .yellow
-        
     }
-     
-        
-    
 }
 
 
 //MARK: - MKLocalSearchCompleterDelegate
 extension WeatherViewController: MKLocalSearchCompleterDelegate{
-    
-    /*func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
-     searchResults = completer.results
-     searchResultsTable.reloadData()
-     }
-     */
+
     func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
         
         searchResults = completer.results
@@ -106,20 +70,11 @@ extension WeatherViewController: MKLocalSearchCompleterDelegate{
             if !result.title.contains(",") {
                 return false
             }
-            /*
-            if result.title.rangeOfCharacter(from: CharacterSet.decimalDigits) != nil {
-                return false
-            }
-            if result.subtitle.rangeOfCharacter(from: CharacterSet.decimalDigits) != nil {
-                return false
-            }*/
             return true
-            
         }
-        
         searchResultsTable.reloadData()
-        
     }
+    
     func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
         print("Search Completer error: \(error)")
     }

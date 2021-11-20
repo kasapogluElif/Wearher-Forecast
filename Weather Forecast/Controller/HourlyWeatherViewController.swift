@@ -25,25 +25,50 @@ class HourlyWeatherViewController: UITableViewController{
         self.cityLabel.text = tab1Controller.cityLabel.text
         self.hourlyWeatherArray = tab1Controller.hourlyWeatherArray
     }
-    func getColorFromId(with id : Int) -> UIColor{
+    
+    
+    
+    var conditionName: String {
+        switch conditionId {
+        case 200...232:
+            return "cloud.bolt"
+        case 300...321:
+            return "cloud.drizzle"
+        case 500...531:
+            return "cloud.rain"
+        case 600...622:
+            return "cloud.snow"
+        case 701...781:
+            return "cloud.fog"
+        case 800:
+            return "sun.max"
+        case 801...804:
+            return "cloud.bolt"
+        default:
+            return "cloud"
+        }
+    }
+        
+    
+    func getColorFromId(with id : Int) -> (UIColor?, UIImage?){
         
         switch id {
         case 200...232:
-            return .red
+            return (UIColor(named: "thunderstorm"), UIImage(named: "cloud.bolt"))
         case 300...321:
-            return .orange
+            return (UIColor(named: "drizzle"), UIImage(named: "cloud.drizzle"))
         case 500...531:
-            return .darkGray
+            return (UIColor(named: "rain"), UIImage(named: "cloud.rain"))
         case 600...622:
-            return .white
+            return (UIColor(named: "snow"), UIImage(named: "cloud.snow"))
         case 701...781:
-            return.gray
+            return (.gray, UIImage(named: "cloud.fog"))
         case 800:
-            return .yellow
+            return (UIColor(named: "clear"), UIImage(named: "cloud.bolt"))
         case 801...804:
-            return .blue
+            return (UIColor(named: "cloud"), UIImage(named: "cloud.bolt"))
         default:
-            return .blue
+            return (.gray, UIImage(named: "cloud.bolt"))
         }
     }
     
@@ -56,7 +81,7 @@ class HourlyWeatherViewController: UITableViewController{
         
         let item = hourlyWeatherArray[indexPath.row]
         cell.weatherColorView.backgroundColor = getColorFromId(with: item.3)
-        cell.weatherColorView.layer.cornerRadius = 10
+        cell.weatherColorView.layer.cornerRadius = 5
         
         cell.timeLabel.text = String(Calendar.current.component(.hour, from: Date(timeIntervalSince1970: item.0)).description + ".00")
         

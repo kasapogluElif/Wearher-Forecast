@@ -69,7 +69,7 @@ extension WeatherViewController : WeatherManagerDelegate{
                         cityName =  "\(town), " + cityName
                     }
               print(cityName)
-                self.cityLabel.text = cityName
+              self.cityLabel.text = cityName
             }
             self.temperatureLabel.text = weather.tempString
             self.descriptionLabel.text = weather.description

@@ -43,21 +43,26 @@ extension WeatherViewController: UITableViewDelegate {
                 return
             }
             self.weatherManager.fetchWeather(latitude: coordinate.latitude, longitute: coordinate.longitude)
-            self.searchResultsTable.isHidden = true
             self.searchBar.text = ""
+            self.searchResultsTable.isHidden = true
             
         }
     }
+    
 }
 
 //MARK: - UISearchBarDelegate
 extension WeatherViewController: UISearchBarDelegate{
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchBar.text == ""{
+            self.searchResultsTable.isHidden = true
+        }else{
+            self.searchResultsTable.isHidden = false
+        }
         searchCompleter.queryFragment = searchText
-        self.searchResultsTable.isHidden = false
-        self.searchResultsTable.backgroundColor = .yellow
     }
 }
+
 
 
 //MARK: - MKLocalSearchCompleterDelegate

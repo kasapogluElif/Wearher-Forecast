@@ -26,49 +26,27 @@ class HourlyWeatherViewController: UITableViewController{
         self.hourlyWeatherArray = tab1Controller.hourlyWeatherArray
     }
     
-    
-    
-    var conditionName: String {
-        switch conditionId {
-        case 200...232:
-            return "cloud.bolt"
-        case 300...321:
-            return "cloud.drizzle"
-        case 500...531:
-            return "cloud.rain"
-        case 600...622:
-            return "cloud.snow"
-        case 701...781:
-            return "cloud.fog"
-        case 800:
-            return "sun.max"
-        case 801...804:
-            return "cloud.bolt"
-        default:
-            return "cloud"
-        }
-    }
-        
-    
-    func getColorFromId(with id : Int) -> (UIColor?, UIImage?){
+            
+    // converts the id into related color and symbol image
+    func convertId(with id : Int) -> (UIColor?, UIImage?){
         
         switch id {
         case 200...232:
-            return (UIColor(named: "thunderstorm"), UIImage(named: "cloud.bolt"))
+            return (UIColor(named: "thunderstorm"), UIImage(systemName: "cloud.bolt"))
         case 300...321:
-            return (UIColor(named: "drizzle"), UIImage(named: "cloud.drizzle"))
+            return (UIColor(named: "drizzle"), UIImage(systemName: "cloud.drizzle"))
         case 500...531:
-            return (UIColor(named: "rain"), UIImage(named: "cloud.rain"))
+            return (UIColor(named: "rain"), UIImage(systemName: "cloud.rain"))
         case 600...622:
-            return (UIColor(named: "snow"), UIImage(named: "cloud.snow"))
+            return (UIColor(named: "snow"), UIImage(systemName: "cloud.snow"))
         case 701...781:
             return (.gray, UIImage(named: "cloud.fog"))
         case 800:
-            return (UIColor(named: "clear"), UIImage(named: "cloud.bolt"))
+            return (UIColor(named: "clear"), UIImage(systemName: "sun.max"))
         case 801...804:
-            return (UIColor(named: "cloud"), UIImage(named: "cloud.bolt"))
+            return (UIColor(named: "cloud"), UIImage(systemName: "cloud.bolt"))
         default:
-            return (.gray, UIImage(named: "cloud.bolt"))
+            return (.gray, UIImage(systemName: "cloud"))
         }
     }
     
@@ -80,7 +58,8 @@ class HourlyWeatherViewController: UITableViewController{
         let cell = tableView.dequeueReusableCell(withIdentifier: "ReusableCell", for: indexPath) as! HourlyWeatherCell
         
         let item = hourlyWeatherArray[indexPath.row]
-        cell.weatherColorView.backgroundColor = getColorFromId(with: item.3)
+        cell.weatherColorView.backgroundColor = convertId(with: item.3).0
+        cell.weatherIcon.image = convertId(with: item.3).1
         cell.weatherColorView.layer.cornerRadius = 5
         
         cell.timeLabel.text = String(Calendar.current.component(.hour, from: Date(timeIntervalSince1970: item.0)).description + ".00")

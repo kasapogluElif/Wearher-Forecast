@@ -4,8 +4,6 @@
 //
 //  Created by Elif Kasapoglu on 13.11.2021.
 //
-
-
 import Foundation
 import MapKit
 import UIKit
@@ -45,10 +43,8 @@ extension WeatherViewController: UITableViewDelegate {
             self.weatherManager.fetchWeather(latitude: coordinate.latitude, longitute: coordinate.longitude)
             self.searchBar.text = ""
             self.searchResultsTable.isHidden = true
-            
         }
     }
-    
 }
 
 //MARK: - UISearchBarDelegate
@@ -56,6 +52,7 @@ extension WeatherViewController: UISearchBarDelegate{
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchBar.text == ""{
             self.searchResultsTable.isHidden = true
+            
         }else{
             self.searchResultsTable.isHidden = false
         }
@@ -63,20 +60,18 @@ extension WeatherViewController: UISearchBarDelegate{
     }
 }
 
-
-
 //MARK: - MKLocalSearchCompleterDelegate
 extension WeatherViewController: MKLocalSearchCompleterDelegate{
-
+    
     func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
         
         searchResults = completer.results
-        self.searchResults = completer.results.filter { result in
+        /*self.searchResults = completer.results.filter { result in
             if !result.title.contains(",") {
                 return false
             }
             return true
-        }
+        }*/
         searchResultsTable.reloadData()
     }
     
@@ -84,4 +79,18 @@ extension WeatherViewController: MKLocalSearchCompleterDelegate{
         print("Search Completer error: \(error)")
     }
     
+}
+
+//MARK: - Keyboard Control
+extension WeatherViewController{
+    
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(WeatherViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
 }

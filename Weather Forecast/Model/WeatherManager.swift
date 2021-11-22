@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreLocation
+import UIKit
 
 protocol WeatherManagerDelegate {
     func didUpdateWeather(_ weatherManager: WeatherManager, weather: WeatherModel)
@@ -14,7 +15,7 @@ protocol WeatherManagerDelegate {
 }
 
 struct WeatherManager{
-    private let weatherURL = "https://api.openweathermap.org/data/2.5/onecall?appid=043ea596fe999d25fdd5ee6741bc809a&units=metric&lang=tr&exclude=minutely"
+    private let weatherURL = "https://api.openweathermap.org/data/2.5/onecall?appid=043ea596fe999d25fdd5ee6741bc809a&units=metric&lang=en&exclude=minutely"
     
     var delegate : WeatherManagerDelegate?
     
@@ -63,6 +64,28 @@ struct WeatherManager{
         }catch{
             delegate?.didFailWithError(error: error)
             return nil
+        }
+    }
+    
+    // converts the id into related color and symbol image
+    static func convertId(with id : Int) -> (UIColor?, UIImage?){
+        switch id {
+        case 200...232:
+            return (UIColor(named: "thunderstorm"), UIImage(systemName: "cloud.bolt"))
+        case 300...321:
+            return (UIColor(named: "drizzle"), UIImage(systemName: "cloud.drizzle"))
+        case 500...531:
+            return (UIColor(named: "rain"), UIImage(systemName: "cloud.rain"))
+        case 600...622:
+            return (UIColor(named: "snow"), UIImage(systemName: "cloud.snow"))
+        case 701...781:
+            return (.gray, UIImage(named: "cloud.fog"))
+        case 800:
+            return (UIColor(named: "clear"), UIImage(systemName: "sun.max"))
+        case 801...804:
+            return (UIColor(named: "cloud"), UIImage(systemName: "cloud.bolt"))
+        default:
+            return (.gray, UIImage(systemName: "cloud"))
         }
     }
     

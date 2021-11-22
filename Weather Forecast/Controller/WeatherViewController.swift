@@ -12,6 +12,7 @@ import MapKit
 
 class WeatherViewController: UIViewController {
     
+    @IBOutlet weak var backgroundView: UIView!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var searchResultsTable: UITableView!
     @IBOutlet weak var cityLabel: UILabel!
@@ -23,28 +24,31 @@ class WeatherViewController: UIViewController {
     var hourlyWeatherArray :[(Double, Double, String, Int)] = [] //[(time,temparature,desc,id)]
     var searchCompleter = MKLocalSearchCompleter()
     var searchResults = [MKLocalSearchCompletion]()
-
+    var gradientLayer = CAGradientLayer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        hideKeyboardWhenTappedAround()
+        setBackgroundGradient()
         weatherManager.delegate = self
         searchCompleter.delegate = self
         searchBar?.delegate = self
         searchResultsTable?.delegate = self
         searchResultsTable?.dataSource = self
-
         
         locationManager.requestWhenInUseAuthorization()
         if CLLocationManager.locationServicesEnabled(){
             locationManager.delegate = self
             locationManager.requestLocation()
         }
-        else{
-            //weatherManager.fetchWeather(cityName: "ANKARA")
-            return
-        }
     }
+    
+    func setBackgroundGradient(){
+        self.gradientLayer.frame = self.backgroundView.bounds
+        self.gradientLayer.colors = [UIColor.lightGray.cgColor, UIColor(named: "appColor-1")?.cgColor ?? UIColor.darkGray.cgColor]
+        self.backgroundView.layer.insertSublayer(gradientLayer, at: 0)
+    }
+    
 }
 
 //MARK: - WeatherManagerDelegate
@@ -59,21 +63,23 @@ extension WeatherViewController : WeatherManagerDelegate{
                 }
                 
                 var cityName = ""
-                    if let country = placemark.country {
-                        cityName = "\(country)"
-                    }
-                    if let state = placemark.administrativeArea {
-                        cityName = "\(state), " + cityName
-                    }
-                    if let town = placemark.locality {
-                        cityName =  "\(town), " + cityName
-                    }
-              print(cityName)
-              self.cityLabel.text = cityName
+                if let country = placemark.country {
+                    cityName = "\(country)"
+                }
+                if let state = placemark.administrativeArea {
+                    cityName = "\(state), " + cityName
+                }
+                if let town = placemark.locality {
+                    cityName =  "\(town), " + cityName
+                }
+                print(cityName)
+                self.cityLabel.text = cityName
             }
             self.temperatureLabel.text = weather.tempString
             self.descriptionLabel.text = weather.description
             self.hourlyWeatherArray = weather.hourlyTemp
+            self.gradientLayer.colors = [WeatherManager.convertId(with: weather.conditionId).0?.cgColor ??  UIColor.lightGray.cgColor, UIColor(named: "appColor-1")?.cgColor ?? UIColor.darkGray.cgColor]
+            
         }
     }
     
@@ -89,8 +95,6 @@ extension WeatherViewController: CLLocationManagerDelegate{
             let lat = currentLocation.coordinate.latitude
             let long = currentLocation.coordinate.longitude
             weatherManager.fetchWeather(latitude: lat, longitute: long)
-            
-            
         }
     }
     
